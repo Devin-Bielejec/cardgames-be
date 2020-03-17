@@ -22,7 +22,10 @@ io.on("connection", socket => {
   });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    socket.broadcast.emit("user left", {
+      username: socket.username,
+      message: `${socket.username} has left!`
+    });
   });
 
   socket.on("new message", data => {
@@ -30,6 +33,20 @@ io.on("connection", socket => {
     io.emit("new message", {
       username: socket.username,
       message: data
+    });
+  });
+
+  socket.on("typing", () => {
+    socket.broadcast.emit("typing", {
+      username: socket.username,
+      message: `${socket.username} is typing...`
+    });
+  });
+
+  socket.on("stop typing", () => {
+    socket.broadcast.emit("stop typing", {
+      username: socket.username,
+      message: ""
     });
   });
 });
