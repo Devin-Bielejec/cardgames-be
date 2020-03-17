@@ -10,7 +10,7 @@
   },
   "jest": {
     "testEnvironment": "node"
-  }, 
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Devin-Bielejec/backendTemplate.git"
@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.5",
     "pg": "^7.12.1",
+    "socket.io": "^2.3.0",
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
