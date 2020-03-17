@@ -7,16 +7,30 @@ const io = require("socket.io")(http);
 const PORT = process.env.PORT || 4000;
 
 io.on("connection", socket => {
-  socket.on("add user", name => {
-    socket.broadcast.emit("user joined", { name: name });
+  let addedUser = false;
+
+  socket.on("add user", username => {
+    console.log(username);
+    if (addedUser) return;
+
+    socket.username = username;
+    addedUser = true;
+    socket.broadcast.emit("user joined", {
+      username: socket.username,
+      message: `${socket.username} has joined!`
+    });
   });
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
 
-  socket.on("chat message", msg => {
-    io.emit("chat message", msg);
+  socket.on("new message", data => {
+    console.log(data, socket.username);
+    io.emit("new message", {
+      username: socket.username,
+      message: data
+    });
   });
 });
 
